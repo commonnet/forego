@@ -78,7 +78,6 @@ func (of *OutletFactory) WriteLine(left, right string, leftC, rightC ct.Color, i
 	of.Lock()
 	defer of.Unlock()
 
-	right = "jjdsofi jaio INFO: blsjfiojsdofj"
 	ct.ChangeColor(leftC, true, ct.None, false)
 	formatter := fmt.Sprintf("%%-%ds | ", of.Padding)
 	fmt.Printf(formatter, left)
