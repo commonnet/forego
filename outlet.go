@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 	"sync"
 
 	ct "github.com/daviddengcn/go-colortext"
-	"strings"
 )
 
 type OutletFactory struct {
@@ -78,20 +78,22 @@ func (of *OutletFactory) WriteLine(left, right string, leftC, rightC ct.Color, i
 	of.Lock()
 	defer of.Unlock()
 
+	right = "jjdsofi jaio INFO: blsjfiojsdofj"
 	ct.ChangeColor(leftC, true, ct.None, false)
 	formatter := fmt.Sprintf("%%-%ds | ", of.Padding)
 	fmt.Printf(formatter, left)
 
 	words := strings.Fields(right)
 	if len(words) > 2 {
-		switch words[2] {
-		case "INFO:":
+		word := words[2]
+		switch words[2][:len(word)-1] {
+		case "INFO":
 			ct.ChangeColor(ct.Green, true, ct.None, true)
-		case "WARNING:":
+		case "WARNING":
 			ct.ChangeColor(ct.Yellow, true, ct.None, true)
-		case "ERROR:":
+		case "ERROR":
 			ct.ChangeColor(ct.Red, true, ct.None, true)
-		case "DEBUG:":
+		case "DEBUG":
 			ct.ChangeColor(ct.White, true, ct.Magenta, true)
 		default:
 			ct.ResetColor()
