@@ -9,6 +9,7 @@ import (
 	"sync"
 
 	ct "github.com/daviddengcn/go-colortext"
+	"strings"
 )
 
 type OutletFactory struct {
@@ -81,13 +82,25 @@ func (of *OutletFactory) WriteLine(left, right string, leftC, rightC ct.Color, i
 	formatter := fmt.Sprintf("%%-%ds | ", of.Padding)
 	fmt.Printf(formatter, left)
 
-	if isError {
-		ct.ChangeColor(ct.Red, true, ct.None, true)
+	words := strings.Fields(right)
+	if len(words) > 2 {
+		switch words[2] {
+		case "INFO:":
+			ct.ChangeColor(ct.Green, true, ct.None, true)
+		case "WARNING:":
+			ct.ChangeColor(ct.Yellow, true, ct.None, true)
+		case "ERROR:":
+			ct.ChangeColor(ct.Red, true, ct.None, true)
+		case "DEBUG:":
+			ct.ChangeColor(ct.White, true, ct.Magenta, true)
+		default:
+			ct.ResetColor()
+		}
 	} else {
 		ct.ResetColor()
 	}
+
 	fmt.Println(right)
-	if isError {
-		ct.ResetColor()
-	}
+
+	ct.ResetColor()
 }
